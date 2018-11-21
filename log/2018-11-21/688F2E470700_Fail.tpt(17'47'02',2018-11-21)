@@ -1,0 +1,20 @@
+HIVE-2200 Throughput/RSSI production version: SR2_Beta3.1 , Station: THROUGHPUT
+---------------------------------------------------------------------------
+DUT MAC:688F2E470700
+Start Time:Wed Nov 21 17:46:50 2018
+---------------------------------------------------------------------------
+root@xe1-plume-rdk-broadband-hitron-nvram:~# pmf -e
+Device is already in factory mode. Exit operation
+root@xe1-plume-rdk-broadband-hitron-nvram:~#
+SoftWare Version: 2.0.0-0-stable-20181115011227 
+echo end of stdOUT buffer $?
+Success, file /var/certs/ca.pem read!
+Success, file /var/certs/client.pem read!
+Success, file /var/certs/client_dec.key read!
+Finished, no more certificates found!
+OK
+NrmCheck Failed : BT UUID Failed:2G chain0: ffffffff
+
+Test Result: FAIL
+End Time:Wed Nov 21 17:47:02 2018
+Total Test Time: 12.5s

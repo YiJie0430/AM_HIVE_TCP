@@ -1,0 +1,17 @@
+HIVE-2200 Throughput/RSSI production version: SR2_Beta3 , Station: THROUGHPUT
+---------------------------------------------------------------------------
+DUT MAC:688F2E470700
+Start Time:Fri Sep 21 16:36:44 2018
+---------------------------------------------------------------------------
+pmf -e
+Device is already in factory mode. Exit operation
+root@piranha:/# Success, file /var/certs/ca.pem read!
+Success, file /var/certs/client.pem read!
+Success, file /var/certs/client_dec.key read!
+Finished, no more certificates found!
+OK
+NrmCheck Failed : BT MAC Failed:58:EF:68:84:4A:FB
+
+Test Result: FAIL
+End Time:Fri Sep 21 16:36:50 2018
+Total Test Time: 6.2s

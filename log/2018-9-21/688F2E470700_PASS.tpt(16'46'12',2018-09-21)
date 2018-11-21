@@ -1,0 +1,99 @@
+HIVE-2200 Throughput/RSSI production version: SR2_Beta3 , Station: THROUGHPUT
+---------------------------------------------------------------------------
+DUT MAC:688F2E470700
+Start Time:Fri Sep 21 16:45:04 2018
+---------------------------------------------------------------------------
+pmf -e
+Device is already in factory mode. Exit operation
+root@piranha:/# 
+SoftWare Version: 2.0.3-0-g103dc5a-mods-development 
+Success, file /var/certs/ca.pem read!
+Success, file /var/certs/client.pem read!
+Success, file /var/certs/client_dec.key read!
+Finished, no more certificates found!
+OKSerial No.:  123456789012
+Wan MAC   :  68:8F:2E:47:07:00
+Wifi0 MAC :  68:8F:2E:47:07:01
+Wifi1 MAC :  68:8F:2E:47:07:02
+BT MAC    :  58:EF:68:84:4A:FB
+BT UUID   :  0xfe71
+Company ID is 0xffff
+PART NO                        empty
+SKU NUMBER                     empty
+FT TEST VERSION                empty
+PT TEST VERSION                empty
+POWER BOARD BOM VERSION        empty
+RF BOARD BOM VERSION           empty
+MECHANICAL BOM VERSION         empty
+MECHANICAL SOP VERSION         empty
+Temperature calibration is: 
+2G chain0: ffffffff
+2G chain1: ffffffff
+5G chain0: ffffffff
+5G chain1: ffffffff
+Ctrl no.:  ffffffff
+
+Certs     :  FAILED -  != 688F2E470700
+wifi0/eth :  OK
+wifi1/eth :  OK
+bt/eth0   :  FAILED
+NrmCheck Test time: 6.12 (sec)
+---------------------------------------------------------------------------
+BT Scan: (58:EF:68:84:4A:FB)	<Unknown name>	Unknown
+
+BT Test time: 6.78 (sec)
+---------------------------------------------------------------------------
+Init 5G Interface(0)...
+ath1      IEEE 802.11ac  ESSID:"Hitron_MFG_5G"  
+          Mode:Master  Frequency:5.745 GHz  Access Point: 68:8F:2E:47:07:02   
+          Bit Rate:866.7 Mb/s   Tx-Power:22 dBm   
+          RTS thr:off   Fragment thr:off
+          Encryption key:off
+          Power Management:off
+          Link Quality=94/94  Signal level=-97 dBm  Noise level=-95 dBm
+          Rx invalid nwid:2666  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+
+root@piranha:/
+5G up internal(0) time: 2.05 (sec)
+---------------------------------------------------------------------------
+Check 5G Connection Status...
+5G Connection Check PASS
+WDS Connection Check time: 1.38 (sec)
+---------------------------------------------------------------------------
+5G WIFI Throughput Test...
+5G AVG. RSSI: 46 (>(38))
+5G Transmit linkrate is 400.0 MBit/s, Throughput = 301.00 ( >= 192 )
+5G Receive linkrate is 400.0 MBit/s, Throughput = 277.00 ( >= 192 )
+5G WIFI Throughput Test PASS
+5G WIFI Throughput Test time: 24.11 (sec)
+---------------------------------------------------------------------------
+Init 2.4G Interface(0)...
+ath0      IEEE 802.11ng  ESSID:"Hitron_MFG_2G"  
+          Mode:Master  Frequency:2.422 GHz  Access Point: 68:8F:2E:47:07:01   
+          Bit Rate:144.4 Mb/s   Tx-Power:21 dBm   
+          RTS thr:off   Fragment thr:off
+          Encryption key:off
+          Power Management:off
+          Link Quality=0/94  Signal level=-95 dBm  Noise level=-95 dBm
+          Rx invalid nwid:9525  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+
+root@piranha:/
+2.4G up internal(0) time: 2.05 (sec)
+---------------------------------------------------------------------------
+Check 2.4G Connection Status...
+2.4G Connection Check PASS
+WDS Connection Check time: 1.09 (sec)
+---------------------------------------------------------------------------
+2.4G WIFI Throughput Test...
+2.4G AVG. RSSI: 59 (>(38))
+2.4G Transmit linkrate is 144.4 MBit/s, Throughput = 110.00 ( >= 69 )
+2.4G Receive linkrate is 144.1 MBit/s, Throughput = 98.80 ( >= 69 )
+2.4G WIFI Throughput Test PASS
+2.4G WIFI Throughput Test time: 24.11 (sec)
+---------------------------------------------------------------------------
+
+Test Result: PASS
+End Time:Fri Sep 21 16:46:12 2018
+Total Test Time: 68.4s

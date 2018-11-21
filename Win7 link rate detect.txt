@@ -1,0 +1,6 @@
+Win7 link rate detect
+
+C:\Windows\System32>wmic NIC where NetEnabled=true get Name, Speed
+Name                                  Speed
+Intel(R) Ethernet Connection I218-LM  100000000
+Intel(R) Dual Band Wireless-AC 7260   300000000

@@ -1,0 +1,1 @@
+@set PATH=C:\Program Files (x86)\Bluetooth Command Line Tools\bin\;%PATH%

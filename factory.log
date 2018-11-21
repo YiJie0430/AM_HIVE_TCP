@@ -1,0 +1,26 @@
+=~=~=~=~=~=~=~=~=~=~=~= PuTTY log 2017.12.09 15:40:34 =~=~=~=~=~=~=~=~=~=~=~=
+login as: admin
+Password: 
+Open a new session with uid: 101.
+
+
+>>>
+Console, CLI version 1.0.0.5
+Type 'help' for list of commands
+
+mainMenu> 
+mainMenu> 
+mainMenu> 
+mainMenu> rg
+Entry!
+MAIN> 
+MAIN> reset cleanall
+Are you sure you want to reset to factory defaults? (Y or N) 
+F-RESET
+EMTA MAC: AC:20:2E:FF:FE:B1
+/bin/sh: htxConfigLoginAccount.sh: not found
+/bin/sh: htxConfigLoginAccount.sh: not found
+Try to config Console Log Settings...
+hitron scan plan set default plan 4
+Set default Frequency Plan: Hybrid
+MAIN> 

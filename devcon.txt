@@ -1,0 +1,14 @@
+
+
+D:\PE_Dep\tools\test tools\devcon_64bit\devcon>devcon.exe find =net pci*
+PCI\VEN_8086&DEV_08B2&SUBSYS_C2708086&REV_83\4&2ED2A406&0&00E1: Intel(R) Dual Ba
+nd Wireless-AC 7260
+PCI\VEN_8086&DEV_155A&SUBSYS_221417AA&REV_04\3&E89B380&0&C8 : Intel(R) Ethernet
+Connection I218-LM
+2 matching device(s) found.
+
+
+devcon.exe disable = net PCI\VEN_8086
+
+devcon disable *DEV_155A*
+devcon enable *DEV_155A*
