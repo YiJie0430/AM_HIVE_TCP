@@ -7,7 +7,6 @@ import random
 #from htx_new import *
 #from Retest import *
 import subprocess as sp
-import re
 #import multiprocessing
 
 execfile("config.ini")
@@ -161,7 +160,6 @@ def CheckValue(func):
         if '0xfe71' != str(parsing[5].split('\r')[0]):
             result = 0
             rep = 'BT UUID Failed:{}'.format(parsing[5].split('\r')[0])
-        result=1
         return (result, rep, data)
     return checkdata
     
@@ -209,7 +207,7 @@ def CheckNrm(parent,term,mac,log):
         if 'exists in flash' in data:
             raise Except("please reboot DUT: {}".format(data))
         else: 
-            pass #raise Except("Nrm setup failed: {}".format(data))
+            raise Except("Nrm setup failed: {}".format(data))
     parent.SendMessage(data, log)    
     report = lWaitCmdTerm(term,"pmf --report", promp, 10)
     return report
@@ -473,11 +471,9 @@ def IperfThroughput(parent,term,gd_term,interface,run,log):
                       raise Except('chain{} rssi fail: {} (40 ~ 80 dBm)'.format(idx,i))
           else:
               try:
-                  data = lWaitCmdTerm(term, "athstats -i wifi1 | grep rssi", promp, 3); print data
-                  rssi_0 = data.split('ast_rx_rssi_chain0  :')[-1].split('\n')[0]; 
-                  rssi_0 = rssi_0.split(u'\t')[1]; print 'rssi0:', rssi_0
-                  rssi_1 = data.split('ast_rx_rssi_chain1  :')[-1].split('\n')[0]; 
-                  rssi_1 = rssi_1.split(u'\t')[1]; print 'rssi1:', rssi_1
+                  data = lWaitCmdTerm(term, "athstats -i wifi1 | grep rssi", promp, 3); #print data
+                  rssi_0 = data.split('ast_rx_rssi_chain0  :   ')[-1].split('      ')[0].strip(); print rssi_0
+                  rssi_1 = data.split('ast_rx_rssi_chain1  :   ')[-1].split('      ')[0].strip(); print rssi_1
                   rssi_0_1 = [rssi_0,rssi_1]
               except:
                   rssi_0_1 = [30,30]
@@ -485,16 +481,13 @@ def IperfThroughput(parent,term,gd_term,interface,run,log):
                   if not 30 <= int(i) <= 60:
                       raise Except('chain{} rssi fail: {} (30 ~ 60 dBm)'.format(idx,i))
           
-          #data=lWaitCmdTerm(term,"iwinfo %s assoc"%ap_argv[interface][0],promp,3); print data
-          data=lWaitCmdTerm(term,"wlanconfig %s list"%ap_argv[interface][0],promp,3); print data
-          info = data.split('\n')[2];
-          data = re.sub(r'\s+', ' ', info).split()
+          data=lWaitCmdTerm(term,"iwinfo %s assoc"%ap_argv[interface][0],promp,3); print data
           if data:
-            #rssi=data.split('SNR')[-1].split(')')[0].strip()
-            #rssi_list.append(rssi); #print 'rssi_list:',rssi_list
-            tx_rate=data[3].split('M')[0].strip()
+            rssi=data.split('SNR')[-1].split(')')[0].strip()
+            rssi_list.append(rssi); #print 'rssi_list:',rssi_list
+            tx_rate=data.split('TX:')[-1].split('MBit/s')[0].strip()
             tx_link_rate.append(tx_rate); #print 'tx_list:',tx_link_rate          
-            rx_rate=data[4].split('M')[0].strip()
+            rx_rate=data.split('RX:')[-1].split('MBit/s')[0].strip()
             rx_link_rate.append(rx_rate); #print 'rx_list:',rx_link_rate
           
           if (time.time()-start_T) > 30:
@@ -507,9 +500,11 @@ def IperfThroughput(parent,term,gd_term,interface,run,log):
                break
         
         from collections import Counter
-        #rssi_count=Counter(rssi_list)
-        #rssi=rssi_count.most_common(1); print 'rssi:',rssi
-        #if int(rssi[0][0])<=int(rssi_criteria): rssi_fail=1
+        rssi_count=Counter(rssi_list)
+        rssi=rssi_count.most_common(1); print 'rssi:',rssi
+        if int(rssi[0][0])<=int(rssi_criteria): rssi_fail=1
+        #rssi_list.sort(reverse=True)
+        #rssi=rssi_list[0:3]/3
         tx_rate_count=Counter(tx_link_rate)
         tx_rate=tx_rate_count.most_common(1); #print 'tx:',tx_rate
         rx_rate_count=Counter(rx_link_rate)
@@ -536,7 +531,7 @@ def IperfThroughput(parent,term,gd_term,interface,run,log):
                GDIperfsetup(parent,gd_term,log)
         else: 
             if try_==(iperf_retry-1):
-               #parent.SendMessage('AVG. RSSI: %s\n'%(rssi[0][0]),log,color=0)
+               parent.SendMessage('AVG. RSSI: %s\n'%(rssi[0][0]),log,color=0)
                parent.SendMessage('TX/RX link rate: %s/%s Mbits\n'%(rate[0],rate[1]),log,color=0)
                raise Except('Fail: ---Iperf---\n%s\n'%iperf_data)
             else:
@@ -555,7 +550,7 @@ def IperfThroughput(parent,term,gd_term,interface,run,log):
             else: tpt_log[i]=[0,msg]
             if try_==(iperf_retry-1) and test_fail and run<2: gd_term << chr(0x03); return test_fail #parent.SendMessage('link info:\n%s'%data,log,color=2); return test_fail #add by YiJie            
         if try_==(iperf_retry-1) or not test_fail: 
-            #parent.SendMessage('%s AVG. RSSI: %s (>(%s))\n'%(interface,rssi[0][0],rssi_criteria),log,color=0)
+            parent.SendMessage('%s AVG. RSSI: %s (>(%s))\n'%(interface,rssi[0][0],rssi_criteria),log,color=0)
             for i in xrange(2):
                 parent.SendMessage(tpt_log[i][1],log,color=int(tpt_log[i][0]))
             break
@@ -1095,7 +1090,7 @@ def w21_lab(parent):
         parent.SendMessage( "Start Time:"+time.ctime()+"\n",log)
         parent.SendMessage( "---------------------------------------------------------------------------\n",log)
         interface_list=ap_argv.keys()
-        #random.shuffle(interface_list)       
+        random.shuffle(interface_list)       
         term=CheckNrm(parent,term,mac,log)
         #result = BTScan(parent, mac, log)
         for interface in interface_list:
