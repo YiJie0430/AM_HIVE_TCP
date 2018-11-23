@@ -281,10 +281,10 @@ def lWaitCmdTerm(term,cmd,waitstr,sec,count=1):
             #data = term.wait("%s"%promp,sec) 
             term << "%s"%cmd
             data = term.wait("%s"%waitstr,sec)
-            #print data[-1]
-        data1=data[-1].split(cmd+'\n')[-1]; print 'data1:', data1
+            #print data[-1] 
+        data1=data[-1].split(cmd+'\n')[-1]; #print '[data1]:', data1
         if waitstr not in data1: raise Except("ErrorCode[1000]: CMD Issue | cmd: %s, return: %s"%(cmd,data)) 
-        data2=data[-1].split(cmd+'\n')[-1].split(waitstr)[0].strip(); print 'data2:', data2  
+        data2=data[-1].split(cmd+'\n')[-1].split(waitstr)[0].strip(); print '[data2]:', data2  
         return data2
     
     

@@ -553,21 +553,49 @@ class ssh(Terminal):
         self.tn = paramiko.SSHClient()
         self.tn.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.tn.connect(self.host, username=self.user, password=self.psw, port=self.port)
-        self.shell = self.tn.invoke_shell()
+        shell = self.tn.invoke_shell()
+        self.stdin = shell.makefile('wb', 1024)
+        self.stdout = shell.makefile('r', 1024)
+        self.finish = 'end of stdOUT buffer'
 
     def _get(self):
-        shout_str = str()
         shout = list()
-        exit_status = False 
-        while self.shell.recv_ready():
-             shout.append(self.shell.recv(9999))
-        shout_str = ''.join(shout) 
-        return shout_str
+        sherr = list()
+        exit_status = False
+        for line in self.stdout:
+            if str(line).startswith(self.finish):
+                exit_status = int(str(line).rsplit(self.finish)[1])
+                if exit_status:
+                    sherr = shout
+                    #shout = list()
+                break
+            else:                
+                shout.append(re.compile(r'(\x9B|\x1B\[)[0-?]*[ -/]*[@-~]').sub('', line).
+                             replace('\b', '').replace('\r', ''))
+        print shout
+
+        try:
+            shout.remove('$?\n')
+        except Exception as err:
+            print err
+
+        for idx, elm in enumerate(shout):
+            if 'echo' in elm and self.finish in elm:
+                shout[idx] = elm.split('echo')[0]
+                break
+        
+        shout = ''.join(shout)
+        return shout
 
     def _set(self,value):
         if self.tn.get_transport().is_active():
-            self.shell.send(value + '\n')
-            time.sleep(0.3)
+            #value = value.strip('\n')
+            self.stdin.write(value + '\n')
+            time.sleep(0.1)
+            echo_cmd = 'echo {} $?'.format(self.finish)
+            self.stdin.write(echo_cmd + '\n')
+            time.sleep(0.1)
+            self.stdin.flush()
         else:
             raise ('LOST_CONNECT')
 
